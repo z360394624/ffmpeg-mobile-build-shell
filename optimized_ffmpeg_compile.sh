@@ -1,8 +1,8 @@
 #optimized_ffmpeg_compile.sh
-export NDK=/home/luciuszhang/development/android-ndk-r14b
+export NDK=/Users/luciuszhang/Library/Android/sdk/ndk-bundle
 export PREBUILT=$NDK/toolchains/arm-linux-androideabi-4.9/prebuilt
 export PLATFORM=$NDK/platforms/android-14/arch-arm
-PREFIX=/home/luciuszhang/development/workspaces/target/ffmpeg/optimized
+PREFIX=/Users/luciuszhang/development/workspaces/target/ffmpeg/optimized
 
 CPU=arm
 ARCH=arm
