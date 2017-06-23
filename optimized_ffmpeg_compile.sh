@@ -14,7 +14,7 @@ ADDI_CFLAGS="-marm"
 --target-os=linux \
 --arch=$ARCH \
 --sysroot=$PLATFORM \
---cross-prefix=$PREBUILT/linux-x86_64/bin/arm-linux-androideabi- \
+--cross-prefix=$PREBUILT/darwin-x86_64/bin/arm-linux-androideabi- \
 --extra-ldflags="$ADDI_LDFLAGS" \
 --extra-cflags="-Os -fpic $ADDI_CFLAGS" \
 --enable-small \
@@ -43,7 +43,7 @@ $ADDITIONAL_CONFIGURE_FLAG
 make clean
 make -j4
 make install
-$PREBUILT/linux-x86_64/bin/arm-linux-androideabi-ld \
+$PREBUILT/darwin-x86_64/bin/arm-linux-androideabi-ld \
 -rpath-link=$PLATFORM/usr/lib \
 -L$PLATFORM/usr/lib \
 -L$PREFIX/lib \
@@ -54,8 +54,8 @@ libavformat/libavformat.a \
 libavutil/libavutil.a \
 libavfilter/libavfilter.a \
 -lc -lm -lz -ldl -llog --dynamic-linker=/system/bin/linker \
-$PREBUILT/linux-x86_64/lib/gcc/arm-linux-androideabi/4.9.x/libgcc.a
-$PREBUILT/linux-x86_64/bin/arm-linux-androideabi-strip $PREFIX/libffmpeg.so
+$PREBUILT/darwin-x86_64/lib/gcc/arm-linux-androideabi/4.9.x/libgcc.a
+$PREBUILT/darwin-x86_64/bin/arm-linux-androideabi-strip $PREFIX/libffmpeg.so
 
 
 
