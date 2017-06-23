@@ -1,0 +1,6 @@
+mp4是一种容器格式，容器格式允许将不同种类的多媒体数据流（音频与视频，字幕流）合并在单一文件内。
+常见的容器格式有:.avi,.mpg,.mpeg,.mkv,.mka,ogg,ogm,mov,rm,rmvb。
+mp4视频格式包括：MPEG-4 SP/MPEG-4 AVC/H.264
+mp4音频格式包括：AAC AVC 
+
+(mpeg4/aac)(xvid/aac)(h264/aac)(divx/aac)(h264/mp3)
