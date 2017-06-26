@@ -2,7 +2,7 @@
 export NDK=/Users/luciuszhang/Library/Android/sdk/ndk-bundle
 export PREBUILT=$NDK/toolchains/arm-linux-androideabi-4.9/prebuilt
 export PLATFORM=$NDK/platforms/android-14/arch-arm
-PREFIX=/Users/luciuszhang/development/workspaces/target/ffmpeg/optimized
+export PREFIX=/Users/luciuszhang/development/workspaces/target/ffmpeg/optimized
 
 CPU=arm
 ARCH=arm
@@ -30,8 +30,8 @@ ADDI_CFLAGS="-marm"
 --disable-shared \
 --disable-encoders \
 --disable-decoders \
---disable-protocols \
---disable-filters \
+--enable-protocols \
+--enable-filters \
 --enable-decoder=mpeg4 \
 --enable-decoder=h264 \
 --enable-decoder=mp3 \
@@ -53,6 +53,10 @@ libavcodec/libavcodec.a \
 libavformat/libavformat.a \
 libavutil/libavutil.a \
 libavfilter/libavfilter.a \
+libavdevice/libavdevice.a \
+libpostproc/libpostproc.a \
+libswresample/libswresample.a \
+libswscale/libswscale.a \
 -lc -lm -lz -ldl -llog --dynamic-linker=/system/bin/linker \
 $PREBUILT/darwin-x86_64/lib/gcc/arm-linux-androideabi/4.9.x/libgcc.a
 $PREBUILT/darwin-x86_64/bin/arm-linux-androideabi-strip $PREFIX/libffmpeg.so
