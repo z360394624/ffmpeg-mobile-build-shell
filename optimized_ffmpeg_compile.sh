@@ -1,5 +1,5 @@
 #optimized_ffmpeg_compile.sh
-export NDK=/Users/luciuszhang/Library/Android/sdk/ndk-bundle
+export NDK=/Users/luciuszhang/development/android/android-ndk-r17b
 export PREBUILT=$NDK/toolchains/arm-linux-androideabi-4.9/prebuilt
 export PLATFORM=$NDK/platforms/android-14/arch-arm
 export PREFIX=/Users/luciuszhang/development/workspaces/target/ffmpeg/optimized
@@ -24,7 +24,6 @@ ADDI_CFLAGS="-marm"
 --disable-ffmpeg \
 --disable-ffplay \
 --disable-ffprobe \
---disable-ffserver \
 --disable-doc \
 --disable-network \
 --disable-shared \
