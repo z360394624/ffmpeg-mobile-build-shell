@@ -1,9 +1,30 @@
-#mac_build.sh
-
+# ffmpeg-build4androidMac.sh
+# set project dir of FFMPEG
+export PROJECT_DIR_FFMPEG=/Users/luciuszhang/development/workspaces/source/FFmpeg
 export NDK=/Users/luciuszhang/development/android/android-ndk-r14b
+export PREFIX=/Users/luciuszhang/development/workspaces/target/ffmpeg/optimized
+
+if [ ! $PROJECT_DIR_FFMPEG ]; then
+    echo "FFMPEG is EMPTY"
+    exit -1
+fi
+
+if [ ! $NDK ]; then
+    echo "NDK is EMPTY"
+    exit -1
+fi
+
+if [ ! $PREFIX ]; then
+    PREFIX=~/
+fi
+
 export PREBUILT=$NDK/toolchains/arm-linux-androideabi-4.9/prebuilt
 export PLATFORM=$NDK/platforms/android-14/arch-arm
-export PREFIX=/Users/luciuszhang/development/workspaces/target/ffmpeg/optimized
+
+# open ffmpeg dir
+cd $PROJECT_DIR_FFMPEG
+
+echo "Start Compile FFMPEG"
 
 CPU=arm
 ARCH=arm

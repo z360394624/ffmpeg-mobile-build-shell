@@ -1,3 +1,6 @@
+Usage: configure [options]
+Options: [defaults in brackets after descriptions]
+
 Help options:
   --help                   print this message
   --quiet                  Suppress showing informative output
@@ -14,7 +17,7 @@ Help options:
   --list-filters           show all available filters
 
 Standard options:
-  --logfile=FILE           log tests and output to FILE [config.log]
+  --logfile=FILE           log tests and output to FILE [ffbuild/config.log]
   --disable-logging        do not log configure debug information
   --fatal-warnings         fail if any configure warning is generated
   --prefix=PREFIX          install in PREFIX [/usr/local]
@@ -46,14 +49,13 @@ Configuration options:
   --enable-gray            enable full grayscale support (slower color)
   --disable-swscale-alpha  disable alpha channel support in swscale
   --disable-all            disable building components, libraries and programs
-  --enable-raise-major     increase major version numbers in sonames [no]
+  --disable-autodetect     disable automatically detected external libraries [no]
 
 Program options:
   --disable-programs       do not build command line programs
   --disable-ffmpeg         disable ffmpeg build
   --disable-ffplay         disable ffplay build
   --disable-ffprobe        disable ffprobe build
-  --disable-ffserver       disable ffserver build
 
 Documentation options:
   --disable-doc            do not build documentation
@@ -70,7 +72,7 @@ Component options:
   --disable-swscale        disable libswscale build
   --disable-postproc       disable libpostproc build
   --disable-avfilter       disable libavfilter build
-  --enable-avresample      enable libavresample build [no]
+  --enable-avresample      enable libavresample build (deprecated) [no]
   --disable-pthreads       disable pthreads [autodetect]
   --disable-w32threads     disable Win32 threads [autodetect]
   --disable-os2threads     disable OS/2 threads [autodetect]
@@ -138,8 +140,12 @@ External library support:
   Also note that the following help text describes the purpose of the libraries
   themselves, not all their features will necessarily be usable by FFmpeg.
 
+  --disable-alsa           disable ALSA support [autodetect]
+  --disable-appkit         disable Apple AppKit framework [autodetect]
+  --disable-avfoundation   disable Apple AVFoundation framework [autodetect]
   --enable-avisynth        enable reading of AviSynth script files [no]
   --disable-bzlib          disable bzlib [autodetect]
+  --disable-coreimage      disable Apple CoreImage framework [autodetect]
   --enable-chromaprint     enable audio fingerprinting with chromaprint [no]
   --enable-frei0r          enable frei0r video filtering [no]
   --enable-gcrypt          enable gcrypt, needed for rtmp(t)e support
@@ -147,10 +153,11 @@ External library support:
   --enable-gmp             enable gmp, needed for rtmp(t)e support
                            if openssl or librtmp is not used [no]
   --enable-gnutls          enable gnutls, needed for https support
-                           if openssl is not used [no]
+                           if openssl or libtls is not used [no]
   --disable-iconv          disable iconv [autodetect]
   --enable-jni             enable JNI support [no]
   --enable-ladspa          enable LADSPA audio filtering [no]
+  --enable-libaom          enable AV1 video encoding/decoding via libaom [no]
   --enable-libass          enable libass subtitles rendering,
                            needed for subtitles and ass filter [no]
   --enable-libbluray       enable BluRay reading using libbluray [no]
@@ -158,6 +165,7 @@ External library support:
   --enable-libcaca         enable textual display using libcaca [no]
   --enable-libcelt         enable CELT decoding via libcelt [no]
   --enable-libcdio         enable audio CD grabbing with libcdio [no]
+  --enable-libcodec2       enable codec2 en/decoding using libcodec2 [no]
   --enable-libdc1394       enable IIDC-1394 grabbing using libdc1394
                            and libraw1394 [no]
   --enable-libfdk-aac      enable AAC de/encoding via libfdk-aac [no]
@@ -169,11 +177,10 @@ External library support:
   --enable-libgsm          enable GSM de/encoding via libgsm [no]
   --enable-libiec61883     enable iec61883 via libiec61883 [no]
   --enable-libilbc         enable iLBC de/encoding via libilbc [no]
+  --enable-libjack         enable JACK audio sound server [no]
   --enable-libkvazaar      enable HEVC encoding via libkvazaar [no]
   --enable-libmodplug      enable ModPlug via libmodplug [no]
   --enable-libmp3lame      enable MP3 encoding via libmp3lame [no]
-  --enable-libnut          enable NUT (de)muxing via libnut,
-                           native (de)muxer exists [no]
   --enable-libopencore-amrnb enable AMR-NB de/encoding via libopencore-amrnb [no]
   --enable-libopencore-amrwb enable AMR-WB decoding via libopencore-amrwb [no]
   --enable-libopencv       enable video filtering via libopencv [no]
@@ -182,20 +189,24 @@ External library support:
   --enable-libopenmpt      enable decoding tracked files via libopenmpt [no]
   --enable-libopus         enable Opus de/encoding via libopus [no]
   --enable-libpulse        enable Pulseaudio input via libpulse [no]
+  --enable-librsvg         enable SVG rasterization via librsvg [no]
   --enable-librubberband   enable rubberband needed for rubberband filter [no]
   --enable-librtmp         enable RTMP[E] support via librtmp [no]
-  --enable-libschroedinger enable Dirac de/encoding via libschroedinger [no]
   --enable-libshine        enable fixed-point MP3 encoding via libshine [no]
   --enable-libsmbclient    enable Samba protocol via libsmbclient [no]
   --enable-libsnappy       enable Snappy compression, needed for hap encoding [no]
   --enable-libsoxr         enable Include libsoxr resampling [no]
   --enable-libspeex        enable Speex de/encoding via libspeex [no]
+  --enable-libsrt          enable Haivision SRT protocol via libsrt [no]
   --enable-libssh          enable SFTP protocol via libssh [no]
   --enable-libtesseract    enable Tesseract, needed for ocr filter [no]
   --enable-libtheora       enable Theora encoding via libtheora [no]
+  --enable-libtls          enable LibreSSL (via libtls), needed for https support
+                           if openssl or gnutls is not used [no]
   --enable-libtwolame      enable MP2 encoding via libtwolame [no]
   --enable-libv4l2         enable libv4l2/v4l-utils [no]
   --enable-libvidstab      enable video stabilization using vid.stab [no]
+  --enable-libvmaf         enable vmaf filter via libvmaf [no]
   --enable-libvo-amrwbenc  enable AMR-WB encoding via libvo-amrwbenc [no]
   --enable-libvorbis       enable Vorbis en/decoding via libvorbis,
                            native implementation exists [no]
@@ -211,18 +222,22 @@ External library support:
   --enable-libxcb-shape    enable X11 grabbing shape rendering [autodetect]
   --enable-libxvid         enable Xvid encoding via xvidcore,
                            native MPEG-4/Xvid encoder exists [no]
+  --enable-libxml2         enable XML parsing using the C library libxml2 [no]
   --enable-libzimg         enable z.lib, needed for zscale filter [no]
   --enable-libzmq          enable message passing via libzmq [no]
   --enable-libzvbi         enable teletext support via libzvbi [no]
+  --enable-lv2             enable LV2 audio filtering [no]
   --disable-lzma           disable lzma [autodetect]
   --enable-decklink        enable Blackmagic DeckLink I/O support [no]
+  --enable-libndi_newtek   enable Newteck NDI I/O support [no]
   --enable-mediacodec      enable Android MediaCodec support [no]
-  --enable-netcdf          enable NetCDF, needed for sofalizer filter [no]
+  --enable-libmysofa       enable libmysofa, needed for sofalizer filter [no]
   --enable-openal          enable OpenAL 1.1 capture support [no]
-  --enable-opencl          enable OpenCL code
+  --enable-opencl          enable OpenCL processing [no]
   --enable-opengl          enable OpenGL rendering [no]
   --enable-openssl         enable openssl, needed for https support
-                           if gnutls is not used [no]
+                           if gnutls or libtls is not used [no]
+  --disable-sndio          disable sndio support [autodetect]
   --disable-schannel       disable SChannel SSP, needed for TLS support on
                            Windows if openssl and gnutls are not used [autodetect]
   --disable-sdl2           disable sdl2 [autodetect]
@@ -232,19 +247,24 @@ External library support:
   --disable-zlib           disable zlib [autodetect]
 
   The following libraries provide various hardware acceleration features:
+  --disable-amf            disable AMF video encoding code [autodetect]
   --disable-audiotoolbox   disable Apple AudioToolbox code [autodetect]
-  --disable-cuda           disable dynamically linked Nvidia CUDA code [autodetect]
+  --enable-cuda-sdk        enable CUDA features that require the CUDA SDK [no]
   --disable-cuvid          disable Nvidia CUVID support [autodetect]
   --disable-d3d11va        disable Microsoft Direct3D 11 video acceleration code [autodetect]
   --disable-dxva2          disable Microsoft DirectX 9 video acceleration code [autodetect]
+  --disable-ffnvcodec      disable dynamically linked Nvidia code [autodetect]
+  --enable-libdrm          enable DRM code (Linux) [no]
   --enable-libmfx          enable Intel MediaSDK (AKA Quick Sync Video) code via libmfx [no]
   --enable-libnpp          enable Nvidia Performance Primitives-based code [no]
   --enable-mmal            enable Broadcom Multi-Media Abstraction Layer (Raspberry Pi) via MMAL [no]
+  --disable-nvdec          disable Nvidia video decoding acceleration (via hwaccel) [autodetect]
   --disable-nvenc          disable Nvidia video encoding code [autodetect]
   --enable-omx             enable OpenMAX IL code [no]
   --enable-omx-rpi         enable OpenMAX IL code for Raspberry Pi [no]
+  --enable-rkmpp           enable Rockchip Media Process Platform code [no]
+  --disable-v4l2-m2m       disable V4L2 mem2mem code [autodetect]
   --disable-vaapi          disable Video Acceleration API (mainly Unix/Intel) code [autodetect]
-  --disable-vda            disable Apple Video Decode Acceleration code [autodetect]
   --disable-vdpau          disable Nvidia Video Decode and Presentation API for Unix code [autodetect]
   --disable-videotoolbox   disable VideoToolbox code [autodetect]
 
@@ -263,17 +283,22 @@ Toolchain options:
   --target-samples=DIR     path to samples directory on target
   --tempprefix=PATH        force fixed dir/prefix instead of mktemp for checks
   --toolchain=NAME         set tool defaults according to NAME
+                           (gcc-asan, clang-asan, gcc-msan, clang-msan,
+                           gcc-tsan, clang-tsan, gcc-usan, clang-usan,
+                           valgrind-massif, valgrind-memcheck,
+                           msvc, icl, gcov, llvm-cov, hardened)
   --nm=NM                  use nm tool NM [nm -g]
   --ar=AR                  use archive tool AR [ar]
   --as=AS                  use assembler AS []
   --ln_s=LN_S              use symbolic link tool LN_S [ln -s -f]
   --strip=STRIP            use strip tool STRIP [strip]
   --windres=WINDRES        use windows resource compiler WINDRES [windres]
-  --yasmexe=EXE            use yasm-compatible assembler EXE [yasm]
+  --x86asmexe=EXE          use nasm-compatible assembler EXE [nasm]
   --cc=CC                  use C compiler CC [gcc]
   --cxx=CXX                use C compiler CXX [g++]
   --objcc=OCC              use ObjC compiler OCC [gcc]
   --dep-cc=DEPCC           use dependency generator DEPCC [gcc]
+  --nvcc=NVCC              use Nvidia CUDA compiler NVCC [nvcc]
   --ld=LD                  use linker LD []
   --pkg-config=PKGCONFIG   use pkg-config tool PKGCONFIG [pkg-config]
   --pkg-config-flags=FLAGS pass additional flags to pkgconf []
@@ -291,10 +316,11 @@ Toolchain options:
   --extra-objcflags=FLAGS  add FLAGS to OBJCFLAGS []
   --extra-ldflags=ELDFLAGS add ELDFLAGS to LDFLAGS []
   --extra-ldexeflags=ELDFLAGS add ELDFLAGS to LDEXEFLAGS []
-  --extra-ldlibflags=ELDFLAGS add ELDFLAGS to LDLIBFLAGS []
+  --extra-ldsoflags=ELDFLAGS add ELDFLAGS to LDSOFLAGS []
   --extra-libs=ELIBS       add ELIBS []
   --extra-version=STRING   version string suffix []
   --optflags=OPTFLAGS      override optimization-related compiler flags
+  --nvccflags=NVCCFLAGS    override nvcc flags [-gencode arch=compute_30,code=sm_30 -O2]
   --build-suffix=SUFFIX    library name suffix []
   --enable-pic             build position-independent code
   --enable-thumb           compile for Thumb instruction set
@@ -331,6 +357,7 @@ Optimization options (experts only):
   --disable-fma3           disable FMA3 optimizations
   --disable-fma4           disable FMA4 optimizations
   --disable-avx2           disable AVX2 optimizations
+  --disable-avx512         disable AVX-512 optimizations
   --disable-aesni          disable AESNI optimizations
   --disable-armv5te        disable armv5te optimizations
   --disable-armv6          disable armv6 optimizations
@@ -338,7 +365,7 @@ Optimization options (experts only):
   --disable-vfp            disable VFP optimizations
   --disable-neon           disable NEON optimizations
   --disable-inline-asm     disable use of inline assembly
-  --disable-yasm           disable use of nasm/yasm assembly
+  --disable-x86asm         disable use of standalone x86 assembly
   --disable-mipsdsp        disable MIPS DSP ASE R1 optimizations
   --disable-mipsdspr2      disable MIPS DSP ASE R2 optimizations
   --disable-msa            disable MSA optimizations
@@ -375,5 +402,10 @@ Developer options (useful when working on FFmpeg itself):
   --random-seed=VALUE      seed value for --enable/disable-random
   --disable-valgrind-backtrace do not print a backtrace under Valgrind
                            (only applies to --disable-optimizations builds)
+  --enable-osfuzz          Enable building fuzzer tool
+  --libfuzzer=PATH         path to libfuzzer
+  --ignore-tests=TESTS     comma-separated list (without "fate-" prefix
+                           in the name) of tests whose result is ignored
+  --enable-linux-perf      enable Linux Performance Monitor API
 
 NOTE: Object files are built at the place where configure is launched.
