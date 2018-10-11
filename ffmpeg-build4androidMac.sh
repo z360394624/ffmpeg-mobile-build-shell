@@ -1,8 +1,9 @@
 # ffmpeg-build4androidMac.sh
 # set project dir of FFMPEG
 export PROJECT_DIR_FFMPEG=/Users/luciuszhang/development/workspaces/source/FFmpeg
-export NDK=/Users/luciuszhang/development/android/android-ndk-r14b
+export NDK=/Users/luciuszhang/development/android/android-ndk-r12b
 export PREFIX=/Users/luciuszhang/development/workspaces/target/ffmpeg/optimized
+export TOOLCHAIN=$NDK/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64
 
 if [ ! $PROJECT_DIR_FFMPEG ]; then
     echo "FFMPEG is EMPTY"
@@ -25,23 +26,23 @@ export PLATFORM=$NDK/platforms/android-14/arch-arm
 cd $PROJECT_DIR_FFMPEG
 
 echo "Start Compile FFMPEG"
-
-CPU=arm
-ARCH=arm
 #-marm -mthumb gcc编译器参数
 #marm性能优于mthumb百分之10到15，mthumb兼容性更好，可以调试用marm，发版用mthumb
-ADDI_CFLAGS="-marm"
+export ADDI_CFLAGS="-marm=armv6"
 ./configure \
 --prefix=$PREFIX \
 --target-os=linux \
---arch=$ARCH \
+--arch=arm \
 --sysroot=$PLATFORM \
 --cross-prefix=$PREBUILT/darwin-x86_64/bin/arm-linux-androideabi- \
---extra-ldflags="$ADDI_LDFLAGS" \
---extra-cflags="-Os -fpic $ADDI_CFLAGS" \
+--extra-cflags="-Os -fpic $ADDI_CFLAGS -I/Users/luciuszhang/development/workspaces/source/x264/include -I$PLATFORM/usr/include" \
+--extra-ldflags="ADDI_LDFLAGS -L/Users/luciuszhang/development/workspaces/source/x264/lib" \
+--cc=$TOOLCHAIN/bin/arm-linux-androideabi-gcc \
+--nm=$TOOLCHAIN/bin/arm-linux-androideabi-nm \
 --enable-small \
 --enable-gpl \
 --enable-pthreads \
+--enable-libx264 \
 --disable-doc \
 --disable-ffmpeg \
 --disable-ffplay \
@@ -59,28 +60,29 @@ ADDI_CFLAGS="-marm"
 --enable-decoder=aac \
 --enable-encoder=mpeg4 \
 --enable-encoder=libx264 \
---enable-encoder=aac \
-$ADDITIONAL_CONFIGURE_FLAG
+--enable-encoder=aac
 make clean
 make -j4
 make install
+echo "==========================================="
+# build single so lib
 $PREBUILT/darwin-x86_64/bin/arm-linux-androideabi-ld \
 -rpath-link=$PLATFORM/usr/lib \
 -L$PLATFORM/usr/lib \
 -L$PREFIX/lib \
 -soname libffmpeg.so -shared -nostdlib -Bsymbolic --whole-archive --no-undefined -o \
-$PREFIX/libffmpeg.so \
-libavcodec/libavcodec.a \
-libavformat/libavformat.a \
-libavutil/libavutil.a \
-libavfilter/libavfilter.a \
-libavdevice/libavdevice.a \
-libpostproc/libpostproc.a \
-libswresample/libswresample.a \
-libswscale/libswscale.a \
+$PREFIX/lib/libffmpeg.so \
+$PREFIX/lib/libavcodec.a \
+$PREFIX/lib/libavformat.a \
+$PREFIX/lib/libavutil.a \
+$PREFIX/lib/libavfilter.a \
+$PREFIX/lib/libavdevice.a \
+$PREFIX/lib/libpostproc.a \
+$PREFIX/lib/libswresample.a \
+$PREFIX/lib/libswscale.a \
 -lc -lm -lz -ldl -llog --dynamic-linker=/system/bin/linker \
 $PREBUILT/darwin-x86_64/lib/gcc/arm-linux-androideabi/4.9.x/libgcc.a
-$PREBUILT/darwin-x86_64/bin/arm-linux-androideabi-strip $PREFIX/libffmpeg.so
+$PREBUILT/darwin-x86_64/bin/arm-linux-androideabi-strip $PREFIX/lib/libffmpeg.so
 
 
 

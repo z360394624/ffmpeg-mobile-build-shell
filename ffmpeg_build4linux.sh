@@ -8,7 +8,6 @@ echo $NDK
 #git clone https://github.com/FFmpeg/FFmpeg.git
 cd FFmpeg
 ./configure \
---prefix=$PREFIX_LINUX \
 --enable-small \
 --enable-gpl \
 --enable-pthreads \
@@ -31,6 +30,8 @@ cd FFmpeg
 --enable-encoder=mpeg4 \
 --enable-encoder=libx264 \
 --enable-encoder=aac \
+--extra-cflags="-Os -fpic -marm=armv6" \
+--extra-ldflags="-marm=armv6"
 make clean
 make -j4
 make install
