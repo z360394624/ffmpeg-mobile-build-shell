@@ -1,8 +1,8 @@
 # ffmpeg-build4androidMac.sh
 # set project dir of FFMPEG
 export PROJECT_DIR_FFMPEG=/Users/luciuszhang/development/workspaces/source/FFmpeg
-export NDK=/Users/luciuszhang/development/android/android-ndk-r12b
-export PREFIX=/Users/luciuszhang/development/workspaces/target/ffmpeg/optimized
+export NDK=/Users/luciuszhang/development/android/android-ndk-r14b
+export PREFIX=/Users/luciuszhang/development/workspaces/target/ffmpeg
 export TOOLCHAIN=$NDK/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64
 
 if [ ! $PROJECT_DIR_FFMPEG ]; then
@@ -26,41 +26,38 @@ export PLATFORM=$NDK/platforms/android-14/arch-arm
 cd $PROJECT_DIR_FFMPEG
 
 echo "Start Compile FFMPEG"
-#-marm -mthumb gcc编译器参数
-#marm性能优于mthumb百分之10到15，mthumb兼容性更好，可以调试用marm，发版用mthumb
-export ADDI_CFLAGS="-marm=armv6"
 ./configure \
 --prefix=$PREFIX \
 --target-os=linux \
 --arch=arm \
 --sysroot=$PLATFORM \
 --cross-prefix=$PREBUILT/darwin-x86_64/bin/arm-linux-androideabi- \
---extra-cflags="-Os -fpic $ADDI_CFLAGS -I/Users/luciuszhang/development/workspaces/source/x264/include -I$PLATFORM/usr/include" \
---extra-ldflags="ADDI_LDFLAGS -L/Users/luciuszhang/development/workspaces/source/x264/lib" \
+--extra-cflags="-Os -fpic -I/Users/luciuszhang/development/workspaces/target/x264/include" \
+--extra-ldflags="-L/Users/luciuszhang/development/workspaces/target/x264/lib" \
 --cc=$TOOLCHAIN/bin/arm-linux-androideabi-gcc \
 --nm=$TOOLCHAIN/bin/arm-linux-androideabi-nm \
 --enable-small \
 --enable-gpl \
+--enable-shared \
 --enable-pthreads \
---enable-libx264 \
 --disable-doc \
 --disable-ffmpeg \
 --disable-ffplay \
 --disable-ffprobe \
 --disable-doc \
 --disable-network \
---disable-shared \
---disable-encoders \
---disable-decoders \
 --enable-protocols \
 --enable-filters \
+--enable-libx264 \
 --enable-decoder=mpeg4 \
 --enable-decoder=h264 \
 --enable-decoder=mp3 \
 --enable-decoder=aac \
 --enable-encoder=mpeg4 \
 --enable-encoder=libx264 \
---enable-encoder=aac
+--enable-encoder=aac \
+--enable-zlib \
+--extra-libs="-ldl -lgcc"
 make clean
 make -j4
 make install
