@@ -1,7 +1,7 @@
 export PROJECT_DIR_X264=/Users/luciuszhang/development/workspaces/source/x264
 export NDK=/Users/luciuszhang/development/android/android-ndk-r15c
 # export NDK=/Users/luciuszhang/development/android/android-ndk-r14b
-export PREFIX=/Users/luciuszhang/development/workspaces/target/x264
+export PREFIX=/Users/luciuszhang/development/workspaces/target/x264/mobile
 export PLATFORM=$NDK/platforms/android-14/arch-arm
 export PREBUILT=$NDK/toolchains/arm-linux-androideabi-4.9/prebuilt
 

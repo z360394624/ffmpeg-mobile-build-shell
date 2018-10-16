@@ -18,10 +18,7 @@
         SLIB_INSTALL_NAME='$(SLIBNAME_WITH_MAJOR)'  
         SLIB_INSTALL_LINKS='$(SLIBNAME)' 
 
-## ffmpeg编译帮助
-ffmpeg编译配置帮助文件：help.md
+## 移动端mobile目录
 
-## 有效编译shell
-ffmpeg-build4androidMac.sh    
-其余shell无效
+## PC端linux目录
 
